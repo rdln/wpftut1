@@ -7,7 +7,7 @@ using WPFExpl.Services;
 
 namespace WPFExpl
 {
-    class LoginViewModel : INotifyPropertyChanged
+    class LoginViewModel : GenericViewModel
     {
         private string message;
         public string Message {
@@ -19,25 +19,29 @@ namespace WPFExpl
         public string Username
         {
             get => username;
-            set => SetPropertyValue(ref username, value);
+            set {
+                SetPropertyValue(ref username, value);
+                LoginCommand.InvokeCanExecuteChanged();
+            }
         }
 
         private string password;
         public string Password
         {
             get => password;
-            set => SetPropertyValue(ref password, value);
+            set {
+                SetPropertyValue(ref password, value);
+                LoginCommand.InvokeCanExecuteChanged();
+            }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public GenericDelegateCommand LoginCommand { get; }
 
         public LoginViewModel()
         {
             Message = "User not logged in.";
-            LoginCommand = new GenericDelegateCommand(p => Login());
+            LoginCommand = new GenericDelegateCommand(p => Login(), p => CheckCanLogin());
         }
-
-        public ICommand LoginCommand { get; }
 
         public void Login()
         {
@@ -49,13 +53,24 @@ namespace WPFExpl
             ResetUsernameAndPassword();
         }
 
+        private bool CheckCanLogin()
+        {
+            return !string.IsNullOrEmpty(Username)
+                && !string.IsNullOrEmpty(Password);
+        }
+
         private void ResetUsernameAndPassword()
         {
             Username = string.Empty;
             Password = string.Empty;
         }
+    }
 
-        private void SetPropertyValue<T>(ref T field, T value, [CallerMemberName]string propertyName = null)
+    class GenericViewModel : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void SetPropertyValue<T>(ref T field, T value, [CallerMemberName]string propertyName = null)
         {
             if (!EqualityComparer<T>.Default.Equals(field, value))
             {
@@ -68,22 +83,19 @@ namespace WPFExpl
     class GenericDelegateCommand : ICommand
     {
         private readonly Action<object> execute;
+        private readonly Func<object, bool> canExecute;
+        private static readonly Func<object, bool> DefaultCanExecute = (p) => true;
 
         public event EventHandler CanExecuteChanged;
 
-        public GenericDelegateCommand(Action<object> execute)
+        public GenericDelegateCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
             this.execute = execute;
+            this.canExecute = canExecute ?? DefaultCanExecute;
         }
 
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            execute(parameter);
-        }
+        public bool CanExecute(object parameter) => canExecute(parameter);
+        public void Execute(object parameter) => execute(parameter);
+        public void InvokeCanExecuteChanged() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
 }
