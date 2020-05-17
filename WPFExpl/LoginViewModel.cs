@@ -34,7 +34,7 @@ namespace WPFExpl
         public LoginViewModel()
         {
             Message = "User not logged in.";
-            LoginCommand = new LoginDelegateCommand(this);
+            LoginCommand = new GenericDelegateCommand(p => Login());
         }
 
         public ICommand LoginCommand { get; }
@@ -65,15 +65,15 @@ namespace WPFExpl
         }
     }
 
-    class LoginDelegateCommand : ICommand
+    class GenericDelegateCommand : ICommand
     {
-        private readonly LoginViewModel viewModel;
+        private readonly Action<object> execute;
 
         public event EventHandler CanExecuteChanged;
 
-        public LoginDelegateCommand(LoginViewModel viewModel)
+        public GenericDelegateCommand(Action<object> execute)
         {
-            this.viewModel = viewModel;
+            this.execute = execute;
         }
 
         public bool CanExecute(object parameter)
@@ -83,7 +83,7 @@ namespace WPFExpl
 
         public void Execute(object parameter)
         {
-            viewModel.Login();
+            execute(parameter);
         }
     }
 }
