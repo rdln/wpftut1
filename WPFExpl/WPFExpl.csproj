@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="LoginViewModel.cs" />
     <Compile Include="Services\AuthService.cs" />
+    <Compile Include="Services\IAuthService.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WPFExpl.Services
+﻿namespace WPFExpl.Services
 {
-    public class AuthService
+    class AuthService : IAuthService
     {
         private static AuthService instance = null;
         private static readonly object padlock = new object();

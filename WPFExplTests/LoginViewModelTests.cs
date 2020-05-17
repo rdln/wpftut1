@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 using WPFExpl;
 
 namespace WPFExplTests
@@ -9,23 +10,31 @@ namespace WPFExplTests
         [TestMethod]
         public void TestCorrectCredentialsAreSent()
         {
-            var viewModel = new LoginViewModel();
+            var authService = new AuthServiceMock(true);
+            var viewModel = new LoginViewModel(authService);
 
-            viewModel.Username = "user";
-            viewModel.Password = "password";
+            const string username = "user";
+            const string password = "password";
+            viewModel.Username =username;
+            viewModel.Password = password;
 
             viewModel.LoginCommand.Execute(null);
-            Assert.IsTrue(false, "How do I check the values received by the LoginService?");
+
+            Assert.IsTrue(authService.loginsLog.Any());
+            
+            var usedIdentity = authService.loginsLog.First();
+            Assert.AreEqual(username, usedIdentity.Username);
+            Assert.AreEqual(password, usedIdentity.Password);
         }
 
         [TestMethod]
         public void TestSuccessfulLoginHandledCorrectly()
         {
-            var viewModel = new LoginViewModel();
+            var authService = new AuthServiceMock(true);
+            var viewModel = new LoginViewModel(authService);
 
             const string username = "user";
             const string password = "password";
-
             viewModel.Username = username;
             viewModel.Password = password;
 
@@ -34,9 +43,24 @@ namespace WPFExplTests
         }
 
         [TestMethod]
+        public void TestUnsuccessfulLoginHandledCorrectly()
+        {
+            var authService = new AuthServiceMock(false);
+            var viewModel = new LoginViewModel(authService);
+
+            const string username = "user";
+            const string password = "password";
+            viewModel.Username = username;
+            viewModel.Password = password;
+
+            viewModel.LoginCommand.Execute(null);
+            Assert.AreEqual("Wrong credentials", viewModel.Message);
+        }
+
+        [TestMethod]
         public void TestConditionsLoginCommandEnabled()
         {
-            var viewModel = new LoginViewModel();
+            var viewModel = new LoginViewModel(new AuthServiceMock(false));
 
             viewModel.Username = string.Empty;
             viewModel.Password = string.Empty;

@@ -10,6 +10,8 @@ namespace WPFExpl
     internal class LoginViewModel : GenericViewModel
     {
         private string message;
+        private readonly IAuthService authService;
+
         public string Message {
             get => message;
             set => SetPropertyValue(ref message, value);
@@ -37,15 +39,16 @@ namespace WPFExpl
 
         public GenericDelegateCommand LoginCommand { get; }
 
-        public LoginViewModel()
+        public LoginViewModel(IAuthService authService)
         {
+            this.authService = authService;
             Message = "User not logged in.";
             LoginCommand = new GenericDelegateCommand(p => Login(), p => CheckCanLogin());
         }
 
         public void Login()
         {
-            var loginResult = AuthService.Instance.Login(Username, Password);
+            var loginResult = authService.Login(Username, Password);
 
             Message = loginResult
                 ? "Welcome, " + username

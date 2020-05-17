@@ -12,7 +12,7 @@ namespace WPFExpl
 
         public MainWindow()
         {
-            viewModel = new LoginViewModel();
+            viewModel = new LoginViewModel(AuthService.Instance);
 
             DataContext = viewModel;
 
