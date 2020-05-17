@@ -9,8 +9,21 @@ namespace WPFExpl
 {
     class LoginViewModel : INotifyPropertyChanged
     {
-
-        public string Message { get; set; }
+        private string message;
+        public string Message {
+            get
+            {
+                return message;
+            }
+            set
+            {
+                if (!EqualityComparer<string>.Default.Equals(message, value))
+                {
+                    message = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Message)));
+                }
+            }
+        }
 
         public LoginViewModel()
         {
@@ -18,7 +31,5 @@ namespace WPFExpl
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

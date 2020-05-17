@@ -31,14 +31,12 @@ namespace WPFExpl
                 textboxUsername.Visibility = Visibility.Hidden;
                 textboxPassword.Visibility = Visibility.Hidden;
                 viewModel.Message = "Welcome, " + username;
-                viewModel.OnPropertyChanged(nameof(viewModel.Message));
             }
             else
             {
                 textboxUsername.Clear();
                 textboxPassword.Clear();
                 viewModel.Message = "Wrong credentials";
-                viewModel.OnPropertyChanged(nameof(viewModel.Message));
             }
         }
     }
