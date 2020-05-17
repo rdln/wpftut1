@@ -7,7 +7,7 @@ using WPFExpl.Services;
 
 namespace WPFExpl
 {
-    class LoginViewModel : GenericViewModel
+    internal class LoginViewModel : GenericViewModel
     {
         private string message;
         public string Message {

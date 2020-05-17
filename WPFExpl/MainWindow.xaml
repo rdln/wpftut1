@@ -9,20 +9,21 @@
         d:DataContext="{d:DesignInstance WPFExpl:LoginViewModel, IsDesignTimeCreatable=True}">
     <Grid>
         <Grid HorizontalAlignment="Left" Height="71" Margin="22,32,0,0" VerticalAlignment="Top" Width="301">
-
-            <TextBox x:Name="textboxUsername"
-                     Text="{Binding Username}"
+            <TextBox
+                     Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
                      HorizontalAlignment="Left" Height="23" Margin="79,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120"/>
-            <TextBox x:Name="textboxPassword"
-                     Text="{Binding Password}"
+            <TextBox
+                     Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"
                      HorizontalAlignment="Left" Height="23" Margin="79,38,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-            <Button x:Name="LoginButton"
-                    Content="Button"
+            <Button
                     Command="{Binding LoginCommand}"
                     HorizontalAlignment="Left" Margin="204,40,0,0" VerticalAlignment="Top" Width="75" />
             <Label Content="Username" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top"/>
             <Label Content="Password" HorizontalAlignment="Left" Margin="8,37,0,0" VerticalAlignment="Top"/>
         </Grid>
-        <Label x:Name="labelUsermessage" Content="{Binding Message}" HorizontalAlignment="Left" Margin="494,51,0,0" VerticalAlignment="Top"/>
+        <Label
+            Content="{Binding Message}"
+            HorizontalAlignment="Left" Margin="494,51,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
+    
