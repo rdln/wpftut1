@@ -8,9 +8,11 @@ namespace WPFExpl
     /// </summary>
     public partial class MainWindow : Window
     {
+        LoginViewModel viewModel;
+
         public MainWindow()
         {
-            var viewModel = new LoginViewModel();
+            viewModel = new LoginViewModel();
 
             DataContext = viewModel;
 
@@ -28,13 +30,13 @@ namespace WPFExpl
             {
                 textboxUsername.Visibility = Visibility.Hidden;
                 textboxPassword.Visibility = Visibility.Hidden;
-                //this.labelUsermessage.Content = "Welcome, " + username;
+                viewModel.Message = "Welcome, " + username;
             }
             else
             {
                 textboxUsername.Clear();
                 textboxPassword.Clear();
-                //this.labelUsermessage.Content = "Wrong credentials";
+                viewModel.Message = "Wrong credentials";
             }
         }
     }
