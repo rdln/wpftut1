@@ -16,7 +16,10 @@
             <TextBox x:Name="textboxPassword"
                      Text="{Binding Password}"
                      HorizontalAlignment="Left" Height="23" Margin="79,38,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-            <Button x:Name="LoginButton" Content="Button" HorizontalAlignment="Left" Margin="204,40,0,0" VerticalAlignment="Top" Width="75" Click="LoginButton_Click"/>
+            <Button x:Name="LoginButton"
+                    Content="Button"
+                    Command="{Binding LoginCommand}"
+                    HorizontalAlignment="Left" Margin="204,40,0,0" VerticalAlignment="Top" Width="75" />
             <Label Content="Username" HorizontalAlignment="Left" Margin="5,10,0,0" VerticalAlignment="Top"/>
             <Label Content="Password" HorizontalAlignment="Left" Margin="8,37,0,0" VerticalAlignment="Top"/>
         </Grid>

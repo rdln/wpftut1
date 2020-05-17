@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using WPFExpl.Services;
 
 namespace WPFExpl
@@ -32,7 +34,10 @@ namespace WPFExpl
         public LoginViewModel()
         {
             Message = "User not logged in.";
+            LoginCommand = new LoginDelegateCommand(this);
         }
+
+        public ICommand LoginCommand { get; }
 
         public void Login()
         {
@@ -57,6 +62,28 @@ namespace WPFExpl
                 field = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+    }
+
+    class LoginDelegateCommand : ICommand
+    {
+        private readonly LoginViewModel viewModel;
+
+        public event EventHandler CanExecuteChanged;
+
+        public LoginDelegateCommand(LoginViewModel viewModel)
+        {
+            this.viewModel = viewModel;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            viewModel.Login();
         }
     }
 }
