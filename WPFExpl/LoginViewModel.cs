@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
+using System.Runtime.CompilerServices;
 
 namespace WPFExpl
 {
@@ -17,11 +15,7 @@ namespace WPFExpl
             }
             set
             {
-                if (!EqualityComparer<string>.Default.Equals(message, value))
-                {
-                    message = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Message)));
-                }
+                SetPropertyValue(ref message, value);
             }
         }
 
@@ -31,5 +25,14 @@ namespace WPFExpl
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private void SetPropertyValue<T>(ref T field, T value, [CallerMemberName]string propertyName = null)
+        {
+            if (!EqualityComparer<T>.Default.Equals(field, value))
+            {
+                field = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName);
+            }
+        }
     }
 }
