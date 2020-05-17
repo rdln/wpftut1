@@ -9,14 +9,8 @@ namespace WPFExpl
     {
         private string message;
         public string Message {
-            get
-            {
-                return message;
-            }
-            set
-            {
-                SetPropertyValue(ref message, value);
-            }
+            get => message;
+            set => SetPropertyValue(ref message, value);
         }
 
         public LoginViewModel()
@@ -31,7 +25,7 @@ namespace WPFExpl
             if (!EqualityComparer<T>.Default.Equals(field, value))
             {
                 field = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName);
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }
