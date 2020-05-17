@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Configuration;
 using System.Runtime.CompilerServices;
+using WPFExpl.Services;
 
 namespace WPFExpl
 {
@@ -13,12 +13,48 @@ namespace WPFExpl
             set => SetPropertyValue(ref message, value);
         }
 
+        private string username;
+        public string Username
+        {
+            get => username;
+            set => SetPropertyValue(ref username, value);
+        }
+
+        private string password;
+        public string Password
+        {
+            get => password;
+            set => SetPropertyValue(ref password, value);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public LoginViewModel()
         {
             Message = "User not logged in.";
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public void Login()
+        {
+            var loginResult = AuthService.Instance.Login(Username, Password);
+
+            if (loginResult)
+            {
+                Message = "Welcome, " + username;
+                ResetUsernameAndPassword();
+            }
+            else
+            {
+                Message = "Wrong credentials";
+                ResetUsernameAndPassword();
+            }
+        }
+
+        private void ResetUsernameAndPassword()
+        {
+            Username = string.Empty;
+            Password = string.Empty;
+        }
 
         private void SetPropertyValue<T>(ref T field, T value, [CallerMemberName]string propertyName = null)
         {

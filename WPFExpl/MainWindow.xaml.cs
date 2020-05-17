@@ -21,23 +21,7 @@ namespace WPFExpl
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            var username = textboxUsername.Text;
-            var password = textboxPassword.Text;
-
-            var loginResult = AuthService.Instance.Login(username, password);
-
-            if (loginResult)
-            {
-                textboxUsername.Visibility = Visibility.Hidden;
-                textboxPassword.Visibility = Visibility.Hidden;
-                viewModel.Message = "Welcome, " + username;
-            }
-            else
-            {
-                textboxUsername.Clear();
-                textboxPassword.Clear();
-                viewModel.Message = "Wrong credentials";
-            }
+            viewModel.Login();
         }
     }
 }
