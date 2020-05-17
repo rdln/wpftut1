@@ -38,16 +38,10 @@ namespace WPFExpl
         {
             var loginResult = AuthService.Instance.Login(Username, Password);
 
-            if (loginResult)
-            {
-                Message = "Welcome, " + username;
-                ResetUsernameAndPassword();
-            }
-            else
-            {
-                Message = "Wrong credentials";
-                ResetUsernameAndPassword();
-            }
+            Message = loginResult
+                ? "Welcome, " + username
+                : "Wrong credentials";
+            ResetUsernameAndPassword();
         }
 
         private void ResetUsernameAndPassword()
